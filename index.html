@@ -68,20 +68,27 @@
     <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
     <script>
       window.onload = function () {
-        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-        window.castReceiverManager.onReady = function (event) {
-          window.castReceiverManager.setApplicationState('URL Cast ready...');
-        };
+        // cast.framework.CastReceiverContext.getInstance().start();
+
+        window.castReceiver = cast.receiver.CastReceiverContext.getInstance();
+        // window.castReceiver.onReady = function (event) {
+        //   window.castReceiver.setApplicationState('URL Cast ready...');
+        // };
         var namespace = 'urn:x-cast:com.downpat-test.cast';
-        window.messageBus = window.castReceiverManager.getCastMessageBus(namespace);
-        window.messageBus.onMessage = function (event) {
-          var message = JSON.parse(event.data);
-          element('msg').innerText = message;
-          window.messageBus.send(event.senderId, 'ok');
-          update(message.type, message.url, message.text);
-        };
+        // window.messageBus = window.castReceiver.getCastMessageBus(namespace);
+        // window.messageBus.onMessage = function (event) {
+        //   var message = JSON.parse(event.data);
+        //   element('msg').innerText = message;
+        //   window.messageBus.send(event.senderId, 'ok');
+        //   update(message.type, message.url, message.text);
+        // };
         // initialize CastReceiverManager
-        window.castReceiverManager.start({statusText: 'URL Cast starting...'});
+        window.castReceiver.addCustomMessageListener(namespace, function (event) {
+          element('msg').innerText = 'Received!!!';
+          var message = JSON.parse(event.data);
+          update(message.type, message.url, message.text);
+        });
+        window.castReceiver.start({statusText: 'URL Cast starting...'});
       }
       function element (id) {
         return document.getElementById(id);
@@ -105,7 +112,7 @@
         element(which + '-container').style.display = 'block';
         element('message').innerText = text;
         speak(text);
-        window.castReceiverManager.setApplicationState('Now Playing: ' + url);
+        window.castReceiver.setApplicationState('Now Playing: ' + url);
       }
     </script>
   </body>

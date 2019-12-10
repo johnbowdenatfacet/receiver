@@ -69,7 +69,7 @@
     <script>
       window.onload = function () {
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-        castReceiverManager.onReady = function (event) {
+        window.castReceiverManager.onReady = function (event) {
           window.castReceiverManager.setApplicationState('URL Cast ready...');
         };
         var namespace = 'urn:x-cast:com.downpat-test.cast';

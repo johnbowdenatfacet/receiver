@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>iCommand downpat Chromecast Receiver.</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      #content {
+        height: 80vh;
+        width: 100vw;
+      }
+      #youtube-container, #image-container, #video-container {
+        display: none;
+        height: 100%;
+        width: 100%;
+      }
+      #youtube-src, #image-src, #video-tag {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: auto;
+      }
+      #image-src {
+        object-fit: cover;
+      }
+      #message {
+        background-color: #000;
+        color: #FFF;
+        height: 20vh;
+        width: 100vw;
+        font-size: 40px;
+        text-align: center;
+        padding: 20px;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div id="youtube-container">
+        <iframe id="youtube-src" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div id="image-container">
+        <img id="image-src" src="" />
+      </div>
+      <div id="video-container">
+        <video id="video-tag" controls>
+          <source id="video-src" src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <div id="message"></div>
+    <script type='text/javascript' src='//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js'></script>
+    <script>
+      window.onload = function () {
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        castReceiverManager.onReady = function (event) {
+          window.castReceiverManager.setApplicationState('URL Cast ready...');
+        };
+        var namespace = 'urn:x-cast:com.downpat-test.cast';
+        window.messageBus = window.castReceiverManager.getCastMessageBus(namespace);
+        window.messageBus.onMessage = function (event) {
+          var message = JSON.parse(event.data);
+          window.messageBus.send(event.senderId, 'ok');
+          update(message.type, message.url, message.text);
+        };
+        // initialize CastReceiverManager
+        window.castReceiverManager.start({statusText: 'URL Cast starting...'});
+      }
+      function element (id) {
+        return document.getElementById(id);
+      }
+      function reset () {
+        ['youtube', 'image', 'video'].forEach(function (which) {
+          element(which + '-container').style.display = 'none';
+          element(which + '-src').src = url;
+        });
+      }
+      function speak (text) {
+        var synth = window.speechSynthesis;
+        if (text && synth && typeof SpeechSynthesisUtterance !== 'undefined') {
+          var utterance = new SpeechSynthesisUtterance(text);
+          synth.speak(utterance);
+        }
+      }
+      function update (which, url, text) {
+        reset();
+        element(which + '-src').src = url;
+        element(which + '-container').style.display = 'block';
+        element('message').innerText = text;
+        speak(text);
+        window.castReceiverManager.setApplicationState('Now Playing: ' + url);
+      }
+    </script>
+  </body>
+</html>

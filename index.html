@@ -45,6 +45,7 @@
     </style>
   </head>
   <body>
+    <div id="msg"></div>
     <div id="content">
       <div id="youtube-container">
         <iframe id="youtube-src" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -71,6 +72,7 @@
         window.messageBus = window.castReceiverManager.getCastMessageBus(namespace);
         window.messageBus.onMessage = function (event) {
           var message = JSON.parse(event.data);
+          element('msg').innerText = message;
           window.messageBus.send(event.senderId, 'ok');
           update(message.type, message.url, message.text);
         };

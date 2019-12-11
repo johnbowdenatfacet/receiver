@@ -16,7 +16,7 @@
         padding: 20px 40px;
       }
       #content {
-        height: 80vh;
+        height: 20vh;
         width: 100vw;
       }
       #youtube-container, #image-container, #video-container {
@@ -36,7 +36,7 @@
       #message {
         background-color: #000;
         color: #FFF;
-        height: 20vh;
+        height: 80vh;
         width: 100vw;
         font-size: 20px;
         text-align: center;
@@ -88,7 +88,7 @@
         return document.getElementById(id);
       }
       function imgError (error) {
-        element('message').innerText = error ? error.toString() : 'Image error!';
+        m(error ? ', ' + error.toString() : ', Image error!');
       }
       function reset () {
         element('youtube-container').style.display = 'none';
@@ -107,9 +107,13 @@
           }
         } catch (e) {}
       }
+      function m (x) {
+        element('message').innerText = element('message').innerText + x;
+      }
       function updateUI (which, src, text) {
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
         // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
+        m(', ' + which);
         reset();
         element(which + '-src').src = src;
         element(which + '-container').style.display = 'block';

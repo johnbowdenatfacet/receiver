@@ -62,7 +62,7 @@
       </div>
       <div id="image-container">
         <!-- <span>Image</span> -->
-        <img id="image-src" src="" />
+        <img id="image-src" src="" onerror="imgError()" />
       </div>
       <div id="video-container">
         <!-- <span>Video</span> -->
@@ -86,6 +86,9 @@
       }
       function element (id) {
         return document.getElementById(id);
+      }
+      function imgError (error) {
+        element('message').innerText = error ? error.toString() : 'Image error!';
       }
       function reset () {
         element('youtube-container').style.display = 'none';

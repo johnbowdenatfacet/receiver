@@ -76,23 +76,10 @@
     <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
     <script>
       window.onload = function () {
-        // cast.framework.CastReceiverContext.getInstance().start();
-
         window.castReceiver = cast.framework.CastReceiverContext.getInstance();
-        // window.castReceiver.onReady = function (event) {
-        //   window.castReceiver.setApplicationState('URL Cast ready...');
-        // };
         var namespace = 'urn:x-cast:com.downpat-test.cast';
-        // window.messageBus = window.castReceiver.getCastMessageBus(namespace);
-        // window.messageBus.onMessage = function (event) {
-        //   var message = JSON.parse(event.data);
-        //   element('msg').innerText = message;
-        //   window.messageBus.send(event.senderId, 'ok');
-        //   updateUI(message.type, message.url, message.text);
-        // };
-        // initialize CastReceiverManager
         window.castReceiver.addCustomMessageListener(namespace, function (event) {
-          var message = event.data; // JSON.parse(event.data);
+          var message = event.data;
           updateUI(message.type, message.src, message.text);
         });
         window.castReceiver.start({statusText: 'URL Cast starting...'});
@@ -119,6 +106,7 @@
       }
       function updateUI (which, src, text) {
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
+        element('msg').innerHTML = '<div>Src: ' + src + '</div>';
         reset();
         element(which + '-src').src = src;
         element(which + '-container').style.display = 'block';

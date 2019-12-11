@@ -95,8 +95,10 @@
         element('youtube-src').style.display = 'none';
         element('youtube-container').style.display = 'none';
         element('image-src').src = '';
+        element('image-src').style.display = 'none';
         element('image-container').style.display = 'none';
         element('video-src').src = '';
+        element('video-src').style.display = 'none';
         element('video-container').style.display = 'none';
       }
       function speak (text) {
@@ -118,6 +120,7 @@
         // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
         m(', ' + which);
         reset();
+        element(which + '-src').style.display = 'block';
         element(which + '-src').src = src;
         element(which + '-container').style.display = 'block';
         element('message').innerText = text;

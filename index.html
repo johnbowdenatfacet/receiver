@@ -84,7 +84,7 @@
         // };
         // initialize CastReceiverManager
         window.castReceiver.addCustomMessageListener(namespace, function (event) {
-          element('msg').innerText = 'Received!!!';
+          element('msg').innerText = 'Received!!! ' + event.data;
           var message = JSON.parse(event.data);
           update(message.type, message.url, message.text);
         });

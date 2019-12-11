@@ -13,7 +13,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        padding: 20px;
+        padding: 20px 40px;
       }
       #content {
         height: 80vh;
@@ -88,13 +88,12 @@
         //   var message = JSON.parse(event.data);
         //   element('msg').innerText = message;
         //   window.messageBus.send(event.senderId, 'ok');
-        //   update(message.type, message.url, message.text);
+        //   updateUI(message.type, message.url, message.text);
         // };
         // initialize CastReceiverManager
         window.castReceiver.addCustomMessageListener(namespace, function (event) {
-          element('msg').innerText = 'Received ::: ' + event.type + ' || ' + JSON.stringify(event.data);
           var message = event.data; // JSON.parse(event.data);
-          update(message.type, message.url, message.text);
+          updateUI(message.type, message.src, message.text);
         });
         window.castReceiver.start({statusText: 'URL Cast starting...'});
       }
@@ -104,7 +103,7 @@
       function reset () {
         ['youtube', 'image', 'video'].forEach(function (which) {
           element(which + '-container').style.display = 'none';
-          element(which + '-src').src = url;
+          element(which + '-src').src = '';
         });
       }
       function speak (text) {
@@ -114,13 +113,14 @@
           synth.speak(utterance);
         }
       }
-      function update (which, url, text) {
-        reset();
-        element(which + '-src').src = url;
+      function updateUI (which, src, text) {
+        element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
+        // reset();
+        element(which + '-src').src = src;
         element(which + '-container').style.display = 'block';
         element('message').innerText = text;
         speak(text);
-        window.castReceiver.setApplicationState('Now Playing: ' + url);
+        window.castReceiver.setApplicationState('Now Playing: ' + src);
       }
     </script>
   </body>

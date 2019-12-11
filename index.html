@@ -122,6 +122,7 @@
         reset();
         element(which + '-src').style.display = 'block';
         element(which + '-src').src = src;
+        if (which === 'image') element('image-src').crossOrigin = "Anonymous";
         element(which + '-container').style.display = 'block';
         element('message').innerText = text;
         speak(text);

@@ -13,6 +13,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        padding: 20px;
       }
       #content {
         height: 80vh;
@@ -46,18 +47,25 @@
         color: white;
         font-size: 20px;
       }
+      span {
+        color: white;
+        font-size: 15px;
+      }
     </style>
   </head>
   <body>
     <div id="msg"></div>
     <div id="content">
       <div id="youtube-container">
+        <span>Youtube</span>
         <iframe id="youtube-src" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div id="image-container">
+        <span>Image</span>
         <img id="image-src" src="" />
       </div>
       <div id="video-container">
+        <span>Video</span>
         <video id="video-tag" controls>
           <source id="video-src" src="" type="video/mp4">
           Your browser does not support the video tag.
@@ -84,7 +92,7 @@
         // };
         // initialize CastReceiverManager
         window.castReceiver.addCustomMessageListener(namespace, function (event) {
-          element('msg').innerText = 'Received!!! ' + event.type + ' || ' + JSON.stringify(event.data);
+          element('msg').innerText = 'Received ::: ' + event.type + ' || ' + JSON.stringify(event.data);
           var message = event.data; // JSON.parse(event.data);
           update(message.type, message.url, message.text);
         });

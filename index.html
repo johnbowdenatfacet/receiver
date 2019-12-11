@@ -27,7 +27,7 @@
       #youtube-src, #image-src, #video-tag {
         width: 100%;
         height: 100%;
-        display: block;
+        display: none;
         margin: auto;
       }
       #image-src {
@@ -91,12 +91,13 @@
         m(error ? ', ' + error.toString() : ', Image error!');
       }
       function reset () {
-        element('youtube-container').style.display = 'none';
         element('youtube-src').src = '';
-        element('image-container').style.display = 'none';
+        element('youtube-src').style.display = 'none';
+        element('youtube-container').style.display = 'none';
         element('image-src').src = '';
-        element('video-container').style.display = 'none';
+        element('image-container').style.display = 'none';
         element('video-src').src = '';
+        element('video-container').style.display = 'none';
       }
       function speak (text) {
         try {
@@ -107,8 +108,10 @@
           }
         } catch (e) {}
       }
+      var _msgs = '';
       function m (x) {
-        element('message').innerText = element('message').innerText + x;
+        _msgs += x;
+        element('message').innerText = _msgs;
       }
       function updateUI (which, src, text) {
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';

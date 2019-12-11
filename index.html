@@ -38,7 +38,7 @@
         color: #FFF;
         height: 20vh;
         width: 100vw;
-        font-size: 40px;
+        font-size: 20px;
         text-align: center;
         padding: 20px;
         margin: 0;
@@ -57,15 +57,15 @@
     <div id="msg"></div>
     <div id="content">
       <div id="youtube-container">
-        <span>Youtube</span>
+        <!-- <span>Youtube</span> -->
         <iframe id="youtube-src" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div id="image-container">
-        <span>Image</span>
+        <!-- <span>Image</span> -->
         <img id="image-src" src="" />
       </div>
       <div id="video-container">
-        <span>Video</span>
+        <!-- <span>Video</span> -->
         <video id="video-tag" controls>
           <source id="video-src" src="" type="video/mp4">
           Your browser does not support the video tag.
@@ -101,21 +101,25 @@
         return document.getElementById(id);
       }
       function reset () {
-        ['youtube', 'image', 'video'].forEach(function (which) {
-          element(which + '-container').style.display = 'none';
-          element(which + '-src').src = '';
-        });
+        element('youtube-container').style.display = 'none';
+        element('youtube-src').src = '';
+        element('image-container').style.display = 'none';
+        element('image-src').src = '';
+        element('video-container').style.display = 'none';
+        element('video-src').src = '';
       }
       function speak (text) {
-        var synth = window.speechSynthesis;
-        if (text && synth && typeof SpeechSynthesisUtterance !== 'undefined') {
-          var utterance = new SpeechSynthesisUtterance(text);
-          synth.speak(utterance);
-        }
+        try {
+          var synth = window.speechSynthesis;
+          if (text && synth && typeof SpeechSynthesisUtterance !== 'undefined') {
+            var utterance = new SpeechSynthesisUtterance(text);
+            synth.speak(utterance);
+          }
+        } catch (e) {}
       }
       function updateUI (which, src, text) {
-        element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
-        // reset();
+        // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
+        reset();
         element(which + '-src').src = src;
         element(which + '-container').style.display = 'block';
         element('message').innerText = text;

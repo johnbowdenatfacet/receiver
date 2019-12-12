@@ -88,7 +88,7 @@
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
         // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
         if (which === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" />';
+        if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" crossorigin="anonymous" />';
         if (which === 'video') element('content').innerHTML = '<video id="video-tag" controls><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         element('message').innerText = text;
         speak(text);

@@ -19,11 +19,6 @@
         height: 20vh;
         width: 100vw;
       }
-      #youtube-container, #image-container, #video-container {
-        display: none;
-        height: 100%;
-        width: 100%;
-      }
       #youtube-src, #image-src, #video-tag {
         width: 100%;
         height: 100%;
@@ -56,21 +51,6 @@
   <body>
     <div id="msg"></div>
     <div id="content">
-      <div id="youtube-container">
-        <!-- <span>Youtube</span> -->
-        <iframe id="youtube-src" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <div id="image-container">
-        <!-- <span>Image</span> -->
-        <img id="image-src" src="" onerror="imgError()" />
-      </div>
-      <div id="video-container">
-        <!-- <span>Video</span> -->
-        <video id="video-tag" controls>
-          <source id="video-src" src="" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
     </div>
     <div id="message"></div>
     <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
@@ -90,17 +70,6 @@
       function imgError (error) {
         m(error ? ', ' + error.toString() : ', Image error!');
       }
-      function reset () {
-        element('youtube-src').src = '';
-        element('youtube-src').style.display = 'none';
-        element('youtube-container').style.display = 'none';
-        element('image-src').src = '';
-        element('image-src').style.display = 'none';
-        element('image-container').style.display = 'none';
-        element('video-src').src = '';
-        element('video-src').style.display = 'none';
-        element('video-container').style.display = 'none';
-      }
       function speak (text) {
         try {
           var synth = window.speechSynthesis;
@@ -113,17 +82,14 @@
       var _msgs = '';
       function m (x) {
         _msgs += x;
-        element('message').innerText = _msgs;
+        element('msg').innerText = _msgs;
       }
       function updateUI (which, src, text) {
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
         // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
-        m(', ' + which);
-        reset();
-        element(which + '-src').style.display = 'block';
-        element(which + '-src').src = src;
-        if (which === 'image') element('image-src').crossOrigin = "Anonymous";
-        element(which + '-container').style.display = 'block';
+        if (type === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        if (type === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" />';
+        if (type === 'video') element('content').innerHTML = '<video id="video-tag" controls><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         element('message').innerText = text;
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);

@@ -17,7 +17,7 @@
       }
       #content {
         height: 30vh;
-        width: 100vw;
+        width: 100%;
       }
       #youtube-src, #image-src, #video-tag {
         width: 100%;
@@ -32,7 +32,7 @@
         background-color: #000;
         color: #FFF;
         height: 30vh;
-        width: 100vw;
+        width: 100%;
         font-size: 20px;
         text-align: center;
         padding: 20px;
@@ -85,11 +85,9 @@
         element('msg').innerText = _msgs;
       }
       function updateUI (which, src, text) {
-        // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
-        // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
         if (which === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
         if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" crossorigin="anonymous" />';
-        if (which === 'video') element('content').innerHTML = '<video id="video-tag" controls><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
+        if (which === 'video') element('content').innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         element('message').innerText = text;
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);

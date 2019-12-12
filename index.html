@@ -16,13 +16,13 @@
         padding: 20px 40px;
       }
       #content {
-        height: 20vh;
+        height: 30vh;
         width: 100vw;
       }
       #youtube-src, #image-src, #video-tag {
         width: 100%;
         height: 100%;
-        display: none;
+        display: block;
         margin: auto;
       }
       #image-src {
@@ -31,7 +31,7 @@
       #message {
         background-color: #000;
         color: #FFF;
-        height: 80vh;
+        height: 30vh;
         width: 100vw;
         font-size: 20px;
         text-align: center;
@@ -68,7 +68,7 @@
         return document.getElementById(id);
       }
       function imgError (error) {
-        m(error ? ', ' + error.toString() : ', Image error!');
+        // m(error ? ', ' + error.toString() : ', Image error!');
       }
       function speak (text) {
         try {
@@ -87,9 +87,9 @@
       function updateUI (which, src, text) {
         // element('msg').innerHTML = '</div><div>Type: ' + which + '</div><div>Text: ' + text + '</div><div>Src: ' + src + '</div>';
         // element('msg').innerHTML = '<div>Src: ' + src + '</div>';
-        if (type === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        if (type === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" />';
-        if (type === 'video') element('content').innerHTML = '<video id="video-tag" controls><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
+        if (which === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" />';
+        if (which === 'video') element('content').innerHTML = '<video id="video-tag" controls><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         element('message').innerText = text;
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);

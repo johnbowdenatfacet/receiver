@@ -16,7 +16,7 @@
         padding: 20px 40px;
       }
       #content {
-        height: 30vh;
+        height: 80vh;
         width: 100%;
       }
       #youtube-src, #image-src, #video-tag {
@@ -31,25 +31,16 @@
       #message {
         background-color: #000;
         color: #FFF;
-        height: 30vh;
+        height: 20vh;
         width: 100%;
-        font-size: 20px;
+        font-size: 25px;
         text-align: center;
         padding: 20px;
         margin: 0;
       }
-      #msg {
-        color: white;
-        font-size: 20px;
-      }
-      span {
-        color: white;
-        font-size: 15px;
-      }
     </style>
   </head>
   <body>
-    <div id="msg"></div>
     <div id="content">
     </div>
     <div id="message"></div>
@@ -67,9 +58,6 @@
       function element (id) {
         return document.getElementById(id);
       }
-      function imgError (error) {
-        // m(error ? ', ' + error.toString() : ', Image error!');
-      }
       function speak (text) {
         try {
           var synth = window.speechSynthesis;
@@ -79,14 +67,9 @@
           }
         } catch (e) {}
       }
-      var _msgs = '';
-      function m (x) {
-        _msgs += x;
-        element('msg').innerText = _msgs;
-      }
       function updateUI (which, src, text) {
         if (which === 'youtube') element('content').innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" onerror="imgError()" crossorigin="anonymous" />';
+        if (which === 'image') element('content').innerHTML = '<img id="image-src" src="' + src +'" crossorigin="anonymous" />';
         if (which === 'video') element('content').innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         element('message').innerText = text;
         speak(text);

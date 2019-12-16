@@ -97,7 +97,9 @@
           case 'video':
             content.innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         }
-        if (['begin', 'finish'].indexOf(type) < 0) element('message').innerText = text;
+        var message = element('message');
+        if (['begin', 'finish'].indexOf(type) < 0) message.innerText = text;
+        else message.innerText = '';
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);
       }

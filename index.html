@@ -34,8 +34,10 @@
         font-size: 25px;
         text-align: center;
         padding: 20px;
-        margin: 40px 0;
         width: 100%;
+      }
+      #instructions p {
+        margin: 50px 0;
       }
       #message {
         background-color: #000;
@@ -95,7 +97,7 @@
           case 'video':
             content.innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         }
-        element('message').innerText = text;
+        if (['begin', 'finish'].indexOf(type) < 0) element('message').innerText = text;
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);
       }

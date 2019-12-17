@@ -82,6 +82,9 @@
       function updateUI (type, src, text) {
         var content = element('content');
         switch (type) {
+          case 'waiting':
+            content.innerHTML = '<div id="instructions"><p>Awaiting instructions...</p></div>';
+            break;
           case 'begin':
             content.innerHTML = '<div id="instructions"><p>Howto: <b>' + text + '</b></p><p>Ready to start? Use your device to issue commands.</p></div>';
             break;
@@ -98,7 +101,7 @@
             content.innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
         }
         var message = element('message');
-        if (['begin', 'finish'].indexOf(type) < 0) message.innerText = text;
+        if (['waiting', 'begin', 'finish'].indexOf(type) < 0) message.innerText = text;
         else message.innerText = '';
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);

@@ -102,8 +102,10 @@
           }
         } catch (e) {}
       }
-      var _media = '';
+      var _media = null;
+      var _src = null;
       function updateUI (type, src, text) {
+        if (src === _src) return;
         var content = element('content');
         switch (type) {
           case 'waiting':
@@ -127,21 +129,15 @@
             content.innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
             break;
           case 'pause':
-            if (_media === 'youtube') {
-              var frame = element('youtube-src');
-              if (frame) frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } else {
-              var vid = element('video-tag');
-              if (vid) vid.pause();
-            }
-            break;
           case 'play':
             if (_media === 'youtube') {
               var frame = element('youtube-src');
-              if (frame) frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+              if (frame && type === 'pause') frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+              if (frame && type === 'play') frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             } else {
               var vid = element('video-tag');
-              if (vid) vid.play();
+              if (vid && type === 'pause') vid.pause();
+              if (vid && type === 'play') vid.play();
             }
             break;
         }
@@ -150,6 +146,7 @@
         else message.innerText = '';
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);
+        _src = src;
       }
     </script>
   </body>

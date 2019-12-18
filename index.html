@@ -20,7 +20,7 @@
         display: flex;
         align-items: end;
         justify-content: center;
-        height: 5vh;
+        height: 7vh;
         color: #AE2595;
         font-size: 25px;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -30,8 +30,12 @@
       #downpat span {
         margin-left: 15px;
       }
+      #downpat img {
+        position: relative;
+        top: 5px;
+      }
       #content {
-        height: 75vh;
+        height: 73vh;
         width: 100%;
       }
       #youtube-src, #image-src, #video-tag {
@@ -98,6 +102,7 @@
           }
         } catch (e) {}
       }
+      var _media = '';
       function updateUI (type, src, text) {
         var content = element('content');
         switch (type) {
@@ -111,13 +116,34 @@
             content.innerHTML = '<div id="instructions"><p>Howto: <b>' + text + '</b></p><p>Tutorial complete.</p></div>';
             break;
           case 'youtube':
+            _media = type;
             content.innerHTML = '<iframe id="youtube-src" width="560" height="315" src="' + src +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
             break;
           case 'image':
             content.innerHTML = '<img id="image-src" src="' + src +'" crossorigin="anonymous" />';
             break;
           case 'video':
+            _media = type;
             content.innerHTML = '<video id="video-tag" controls autoplay><source id="video-src" src="' + src +'" type="video/mp4">Your browser does not support the video tag.</video>';
+            break;
+          case 'pause':
+            if (_media === 'youtube') {
+              var frame = element('youtube-src');
+              if (frame) frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } else {
+              var vid = element('video-tag');
+              if (vid) vid.pause();
+            }
+            break;
+          case 'play':
+            if (_media === 'youtube') {
+              var frame = element('youtube-src');
+              if (frame) frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            } else {
+              var vid = element('video-tag');
+              if (vid) vid.play();
+            }
+            break;
         }
         var message = element('message');
         if (['waiting', 'begin', 'finish'].indexOf(type) < 0) message.innerText = text;

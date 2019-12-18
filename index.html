@@ -105,7 +105,8 @@
       var _media = null;
       var _src = null;
       function updateUI (type, src, text) {
-        if (src === _src) return;
+        if (src && src === _src) return;
+        if (src) _src = src;
         var content = element('content');
         switch (type) {
           case 'waiting':
@@ -134,7 +135,7 @@
               var frame = element('youtube-src');
               if (frame && type === 'pause') frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
               if (frame && type === 'play') frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-            } else {
+            } else if (_media === 'video') {
               var vid = element('video-tag');
               if (vid && type === 'pause') vid.pause();
               if (vid && type === 'play') vid.play();
@@ -146,7 +147,6 @@
         else message.innerText = '';
         speak(text);
         window.castReceiver.setApplicationState('Now Playing: ' + src);
-        _src = src;
       }
     </script>
   </body>
